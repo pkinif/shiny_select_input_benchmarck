@@ -1,3 +1,16 @@
+# Github Link: https://github.com/pkinif/shiny_select_input_benchmarck
+
+# My Conclusion
+# -------------
+# 
+# Option 1 allows to display more than 1000 values (here 3000) but the input is slow even with the server feature
+# Option 2 doesn't allow to display more than 1000 values
+# Option 3 allows to display more than 1000 values (here 3000) but the design to select more than one value is not efficient
+# --> you need to use the CTRL button
+# Option 4 allows to display more than 1000 values (here 3000) and the UI is really nice/efficient --> this is my best one
+
+
+
 library(shiny)
 library(shinyWidgets)
 
@@ -13,7 +26,7 @@ ui <- fluidPage(
         selectizeInput(
           inputId = "selectizeInput", 
           label = "1/ selectizeInput", 
-          choices = 1:3000,
+          choices = NULL,
           multiple = T,
           options = list(
             placeholder = "Type airport code",
@@ -77,6 +90,8 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
+  updateSelectizeInput(session, "selectizeInput",
+                       choices = 1:3000, server = TRUE)
   
   output$result1 <- renderPrint({
     print(input$selectizeInput)
